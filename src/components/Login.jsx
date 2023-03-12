@@ -54,7 +54,7 @@ export function Login() {
 
     return (
         <Fragment>
-            <div class="p-3 mb-2 bg-dark">
+            <div class="p-3 mb-2 bg-dark vh-100">
             <div className="jumbotron justify-content-center w-25 mx-auto my-2">
 
                 <h1 className="fw-bold mb-5 text-center text-white">Inicio de sesión</h1>
