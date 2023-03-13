@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   addDoc,
@@ -13,15 +14,15 @@ import { db } from "../firebase_config";
 
 const EditUsuario = () => {
   let navigate = useNavigate();
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [segundoApellido, setSegundoApellido] = useState("");
-  const [carnee, setCarnee] = useState("");
-  const [cedula, setCedula] = useState("");
-  const [fechaNacimiento, setFechaNacimiento] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [estado, setEstado] = useState("");
+  let [nombre, setNombre] = useState("");
+  let [apellido, setApellido] = useState("");
+  let [segundoApellido, setSegundoApellido] = useState("");
+  let [carnee, setCarnee] = useState("");
+  let [cedula, setCedula] = useState("");
+  let [fechaNacimiento, setFechaNacimiento] = useState("");
+  let [correo, setCorreo] = useState("");
+  let [contraseña, setContraseña] = useState("");
+  let [estado, setEstado] = useState("");
 
   const { id } = useParams();
   const update = async (e) => {
@@ -59,10 +60,16 @@ const EditUsuario = () => {
       console.log("El usuario no existe");
     }
   };
-
+  const handleEstadoChange = (event) => {
+    setEstado(event.target.value);
+  };
   useEffect(() => {
     getUsuarioById(id);
-  });
+  }, []);
+
+  const handleCancelar = () => {
+    navigate("/gestionEstudiantes", {});
+  };
   return (
     <Fragment>
       <div class="p-3 mb-2 bg-dark vh-100">
@@ -71,7 +78,142 @@ const EditUsuario = () => {
             Editar Usuario
           </h1>
         </div>
-        <div></div>
+        <form onSubmit={update}>
+          <div className="form-floating mx-5 my-2">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nombre"
+              id="nombre"
+              value={nombre}
+              onChange={(event) => {
+                setNombre(event.target.value);
+              }}
+            />
+            <label htmlFor="nombre">Nombre</label>
+          </div>
+
+          <div className="form-floating mx-5 my-2">
+            <input
+              type="text"
+              className="form-control"
+              id="apellido"
+              placeholder="Apellido"
+              value={apellido}
+              onChange={(event) => {
+                setApellido(event.target.value);
+              }}
+            />
+            <label htmlFor="apellido">Apellido</label>
+          </div>
+
+          <div className="form-floating mx-5 my-2">
+            <input
+              type="text"
+              className="form-control"
+              id="segundoApellido"
+              placeholder="SegundoApellido"
+              value={segundoApellido}
+              onChange={(event) => {
+                setSegundoApellido(event.target.value);
+              }}
+            />
+            <label htmlFor="segundoApellido">Segundo Apellido</label>
+          </div>
+
+          <div className="form-floating mx-5 my-2">
+            <input
+              type="text"
+              className="form-control"
+              id="carnee"
+              placeholder="Carnee"
+              value={carnee}
+              onChange={(event) => {
+                setCarnee(event.target.value);
+              }}
+            />
+            <label htmlFor="carnee">Carné</label>
+          </div>
+
+          <div className="form-floating mx-5 my-2">
+            <input
+              type="text"
+              className="form-control"
+              id="cedula"
+              placeholder="Cedula"
+              value={cedula}
+              onChange={(event) => {
+                setCedula(event.target.value);
+              }}
+            />
+            <label htmlFor="cedula">Cedula</label>
+          </div>
+
+          <div className="form-floating mx-5 my-2">
+            <input
+              type="date"
+              className="form-control"
+              id="fechaNacimiento"
+              placeholder="FechaNacimiento"
+              value={fechaNacimiento}
+              onChange={(event) => {
+                setFechaNacimiento(event.target.value);
+              }}
+            />
+            <label htmlFor="fechaNacimiento">Fecha de Nacimiento</label>
+          </div>
+
+          <div className="form-floating mx-5 my-2">
+            <input
+              type="email"
+              className="form-control"
+              id="correo"
+              placeholder="Correo"
+              value={correo}
+              onChange={(event) => {
+                setCorreo(event.target.value);
+              }}
+            />
+            <label htmlFor="correo">Correo Estudiantil</label>
+          </div>
+          <div className="form-floating mx-5 my-2">
+            <Form.Check
+              style={{ color: "white" }}
+              inline
+              type="radio"
+              label="Activo"
+              name="estado"
+              value="Activo"
+              checked={estado === "Activo"}
+              onChange={handleEstadoChange}
+            />
+            <Form.Check
+              inline
+              type="radio"
+              label="Suspendido"
+              name="estado"
+              value="Suspendido"
+              style={{ color: "white" }}
+              checked={estado === "Suspendido"}
+              onChange={handleEstadoChange}
+            />
+          </div>
+          <div className="row g-3 my-2 mb-5">
+            <div className="col">
+              <button className="w-100 btn btn-lg btn-primary">
+                Confirmar
+              </button>
+            </div>
+            <div className="col">
+              <button
+                onClick={handleCancelar}
+                className="w-100 btn btn-lg btn-secondary"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </Fragment>
   );
