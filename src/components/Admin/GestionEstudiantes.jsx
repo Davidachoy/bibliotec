@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   addDoc,
@@ -11,7 +10,6 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../firebase_config";
-import { async } from "@firebase/util";
 
 const GestionEstudiantes = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -28,9 +26,11 @@ const GestionEstudiantes = () => {
   }, []);
 
   const deleteUsuario = async (id) => {
+    const confirmed = window.confirm("¿Estás seguro que quieres eliminar este usuario?");
+    if (confirmed) {
     const usuaroDoc = doc(db, "usuarios", id);
     await updateDoc(usuaroDoc, { eliminado: true });
-    getUsuarios();
+    getUsuarios();}
   };
 
   useEffect(() => {
@@ -66,10 +66,10 @@ const GestionEstudiantes = () => {
                       <td>{usuario.apellido}</td>
                       <td>{usuario.carnee}</td>
                       <td>{usuario.estado}</td>
-                      <td class="text-left">
+                      <td className="text-left">
                         <Link to={`/edit/${usuario.id}`}>
                           <i
-                            class="fa-solid fa-pen-to-square fa-2x"
+                            className="fa-solid fa-pen-to-square fa-2x"
                             style={{ color: "white" }}
                           ></i>
                         </Link>
