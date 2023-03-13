@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export function AdminMenu() {
+  let navigate = useNavigate();
+
   return (
     <Fragment>
       <div class="p-3 mb-2 bg-dark vh-100">
@@ -15,7 +17,11 @@ export function AdminMenu() {
             <button className="btn btn-primary mb-3 btn-lg" type="button">
               Gestión de cubículos
             </button>
-            <button className="btn btn-primary mb-3 btn-lg" type="button">
+            <button
+              onClick={() => {navigate('/gestionEstudiantes',{})}}
+              className="btn btn-primary mb-3 btn-lg"
+              type="button"
+            >
               Gestión de estudiantes
             </button>
             <button className="btn btn-primary mb-3 btn-lg" type="button">
