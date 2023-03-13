@@ -2,23 +2,36 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  updateDoc ,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../firebase_config";
+import { async } from "@firebase/util";
 
 const GestionEstudiantes = () => {
   const [usuarios, setUsuarios] = useState([]);
   const usuariosCollectionRef = collection(db, "usuarios");
-
+  const getUsuarios = async () => {
+    const data = await getDocs(usuariosCollectionRef);
+    const usuarios = data.docs
+      .map((doc) => ({ ...doc.data(), id: doc.id }))
+      .filter((usuario) => !usuario.admin && !usuario.eliminado);
+    setUsuarios(usuarios);
+  };
   useEffect(() => {
-    const getUsuarios = async () => {
-      const data = await getDocs(usuariosCollectionRef);
-      const usuarios = data.docs
-        .map((doc) => ({ ...doc.data(), id: doc.id }))
-        .filter((usuario) => !usuario.admin && !usuario.eliminado);
-      setUsuarios(usuarios);
-    };
     getUsuarios();
   }, []);
+
+  const deleteUsuario = async (id) => {
+    const usuaroDoc = doc(db, "usuarios", id);
+    await updateDoc(usuaroDoc, { eliminado: true });
+    getUsuarios();
+  };
 
   useEffect(() => {
     console.log(usuarios);
@@ -41,7 +54,9 @@ const GestionEstudiantes = () => {
                     <th>Apellido</th>
                     <th>Carnee</th>
                     <th>Estado</th>
-                    <th>Acciones</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                    <th>Ver Historial</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -51,7 +66,24 @@ const GestionEstudiantes = () => {
                       <td>{usuario.apellido}</td>
                       <td>{usuario.carnee}</td>
                       <td>{usuario.estado}</td>
-                      <td>{usuario.eliminado}</td>
+                      <td class="text-left">
+                        <Link to={`/edit/${usuario.id}`}>
+                          <i
+                            class="fa-solid fa-pen-to-square fa-2x"
+                            style={{ color: "white" }}
+                          ></i>
+                        </Link>
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => {
+                            deleteUsuario(usuario.id);
+                          }}
+                          className="btn btn-danger"
+                        >
+                          Borrar
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

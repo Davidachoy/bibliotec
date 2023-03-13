@@ -39,7 +39,8 @@ export function Register(){
             correo: newCorreo,
             contraseña: newContraseña,
             admin: adminflag,
-            eliminado: eliminadoflag
+            eliminado: eliminadoflag,
+            estado:"Activo"
         };
 
         await addDoc(usuariosCollectionRef, data);
