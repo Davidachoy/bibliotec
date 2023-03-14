@@ -8,6 +8,9 @@ import { ClientReservations } from "./components/Client/ClientReservations";
 import { AdminMenu } from "./components/Admin/AdminMenu";
 import GestionEstudiantes from "./components/Admin/GestionEstudiantes";
 import EditUsuario from "./components/Admin/EditUsuario";
+import GestionCubiculos from "./components/Admin/GestionCubiculos";
+import CrearCubiculos from "./components/Admin/CrearCubiculos";
+
 export function App() {
   return (
     <Router>
@@ -21,6 +24,8 @@ export function App() {
           <Route exact path="/gestionEstudiantes" element={<GestionEstudiantes />} />
           <Route exact path="/edit/:id" element={<EditUsuario />} />
 
+          <Route exact path="/gestionCubiculos" element={<GestionCubiculos />} />
+          <Route exact path="/crearCubiculos" element={<CrearCubiculos />} />
 
         </Routes>
       </div>
