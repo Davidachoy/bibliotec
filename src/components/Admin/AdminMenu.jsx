@@ -14,7 +14,11 @@ export function AdminMenu() {
             Pagina de Administrador
           </h1>
           <div className="d-grid gap-2 col-6 mx-auto">
-            <button className="btn btn-primary mb-3 btn-lg" type="button">
+          <button
+              onClick={() => {navigate('/gestionCubiculos',{})}}
+              className="btn btn-primary mb-3 btn-lg"
+              type="button"
+              >
               Gestión de cubículos
             </button>
             <button
